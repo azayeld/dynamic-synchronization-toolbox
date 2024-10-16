@@ -1,4 +1,4 @@
-function [rplv] = pn_eeg_rPLV_single_trial(eegData, windowWidth, stepSize)
+function [rplv] = pn_eeg_rPLV_single_trial(eegData, windowWidth, stepSize,measure)
 % Computes the relative Phase Locking Value (rPLV) for single-trial EEG data using a sliding window approach.
 %
 % Input parameters:
@@ -49,9 +49,13 @@ for trialCount = 1:numTrials
                 windowIndex = 1;
                 for windowStart = 1:stepSize:(numTimePoints - windowWidth + 1)
                     windowEnd = windowStart + windowWidth - 1;
-                    windowPhaseDifference = channelData(windowStart:windowEnd) - compareChannelData(windowStart:windowEnd);
-                    plv = abs(mean(exp(1i * windowPhaseDifference), 2));
-                    rplv(windowIndex, freqCount, channelCount, compareChannelCount, trialCount) = plv;
+                    x1 = channelData(windowStart:windowEnd);
+                    x2 = compareChannelData(windowStart:windowEnd);
+                    con = calc_con(x1,x2,measure);
+                    % windowPhaseDifference = channelData(windowStart:windowEnd) - compareChannelData(windowStart:windowEnd);
+                    % plv = abs(mean(exp(1i * windowPhaseDifference), 2));
+                    % rplv(windowIndex, freqCount, channelCount, compareChannelCount, trialCount) = plv;
+                    rplv(windowIndex, freqCount, channelCount, compareChannelCount, trialCount) = con;
                     windowIndex = windowIndex + 1;
                 end
             end
