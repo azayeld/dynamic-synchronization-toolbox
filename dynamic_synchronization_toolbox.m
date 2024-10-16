@@ -144,7 +144,9 @@
     %%% define freuencies to be considered for averaging rPLV -------------
     options.avg_freqs = 2:7;         
     %----------------------------------------------------------------------
-
+    options.measure = 'ciplv'; % measure used to find connectivity.
+                               % supported 'plv' and 'ciplv'
+    %----------------------------------------------------------------------
 %%% Settings for rPLV statistics
 
     %%% define setting for multiple statistics ----------------------------

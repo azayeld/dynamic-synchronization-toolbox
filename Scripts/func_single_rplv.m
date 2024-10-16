@@ -36,6 +36,8 @@ contrast = options.contrast;
 contrast_conds = options.contrast_conds;
 avg_freqs = options.avg_freqs;
 symb = options.symb;
+measure = options.measure; % defines which measure is used to calculate connectivity
+                           % find description in calc_con function.
 
 windowWidth = options.windowWidth;
 stepSize = options.stepSize;
@@ -56,7 +58,7 @@ Ti=tic;
     numConditions = size(eegData, 4); % # conditions
     
     %%% computation of single-frequency plv %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-    [rplv{sub,1}]=pn_eeg_rPLV_single_trial(eegData(:,freqs,:,:),windowWidth,stepSize);
+    [rplv{sub,1}]=pn_eeg_rPLV_single_trial(eegData(:,freqs,:,:),windowWidth,stepSize,measure);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if switch_hands

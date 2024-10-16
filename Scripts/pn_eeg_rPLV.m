@@ -1,4 +1,4 @@
-function [rplv] = pn_eeg_rPLV(eegData, dataSelectArr,baseline)
+function [rplv] = pn_eeg_rPLV(eegData, dataSelectArr,baseline,measure)
 % Computes the relative Phase Locking Value (rPLV) for an EEG dataset.
 %
 % Input parameters:
@@ -64,7 +64,8 @@ else
 end
 numConditions = size(dataSelectArr, 2);
 
-plv = zeros(size(eegData, 3), numFreqs, numChannels, numChannels, numConditions);
+% plv = zeros(size(eegData, 3), numFreqs, numChannels, numChannels, numConditions);
+con = zeros(size(eegData, 3), numFreqs, numChannels, numChannels, numConditions);
 rplv = zeros(size(eegData, 3), numFreqs, numChannels, numChannels, numConditions);
 for freqCount = 1:numFreqs
     for channelCount = 1:numChannels-1
@@ -72,8 +73,11 @@ for freqCount = 1:numFreqs
         for compareChannelCount = channelCount+1:numChannels
             compareChannelData = squeeze(eegData(compareChannelCount,freqCount, :, :));
             for conditionCount = 1:numConditions
-                plv(:, freqCount, channelCount, compareChannelCount, conditionCount) = abs(mean(exp(1i*(channelData(:, dataSelectArr(:, conditionCount)) - compareChannelData(:, dataSelectArr(:, conditionCount)))), 2));
-                rplv(:, freqCount, channelCount, compareChannelCount, conditionCount) = (squeeze(plv(:, freqCount, channelCount, compareChannelCount, conditionCount)) - mean(squeeze(plv(baseline, freqCount, channelCount, compareChannelCount, conditionCount)),1))/mean(squeeze(plv(baseline, freqCount, channelCount, compareChannelCount, conditionCount)),1);
+                x1 = channelData(:, dataSelectArr(:, conditionCount));
+                x2 = compareChannelData(:, dataSelectArr(:, conditionCount));
+                % plv(:, freqCount, channelCount, compareChannelCount, conditionCount) = abs(mean(exp(1i*(channelData(:, dataSelectArr(:, conditionCount)) - compareChannelData(:, dataSelectArr(:, conditionCount)))), 2));
+                con(:, freqCount, channelCount, compareChannelCount, conditionCount) = calc_con(x1,x2,measure);
+                rplv(:, freqCount, channelCount, compareChannelCount, conditionCount) = (squeeze(con(:, freqCount, channelCount, compareChannelCount, conditionCount)) - mean(squeeze(con(baseline, freqCount, channelCount, compareChannelCount, conditionCount)),1))/mean(squeeze(con(baseline, freqCount, channelCount, compareChannelCount, conditionCount)),1);
             end
         end
     end
