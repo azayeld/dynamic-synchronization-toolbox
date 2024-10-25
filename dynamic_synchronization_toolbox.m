@@ -149,6 +149,8 @@
     options.measure = 'ciplv'; % measure used to find connectivity.
                                % supported 'plv' and 'ciplv'
     %----------------------------------------------------------------------
+    options.singleTrial = true; 
+
 %%% Settings for rPLV statistics
 
     %%% define setting for multiple statistics ----------------------------
