@@ -40,6 +40,8 @@ function [rplv, trials, rplv_mean, sig_ti, xa, length, Agg, bet, hub, clusters, 
 %            (default: True)
 %            - avg_freqs: Set of frequencies for rPLV averaging (default:
 %            [2:7])
+%            - measure: defines which measure is used to calculate connectivity. Find description in calc_con function.
+%            - singleTrial: to analyse single-trial EEG data using a sliding window approach
 %
 % 2. Define Dynamic Graph based on rPLV statistics
 % This step is performed by stats_rplv(rplv,stats)
